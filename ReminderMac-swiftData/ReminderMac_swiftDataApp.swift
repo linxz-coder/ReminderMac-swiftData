@@ -8,7 +8,7 @@ struct ReminderMac_swiftDataApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Note.self)
+        .modelContainer(for: [Note.self, Category.self])
     }
     
     init(){
