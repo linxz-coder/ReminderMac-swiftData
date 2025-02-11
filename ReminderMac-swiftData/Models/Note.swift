@@ -5,6 +5,8 @@
 //  Created by 林晓中 on 2025/2/7.
 //
 
+// Note.swift
+
 import Foundation
 import SwiftData
 

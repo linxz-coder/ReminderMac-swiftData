@@ -1,16 +1,15 @@
 //
 //  NoteRowView.swift
-//  MacTableDemo
-//
-//  Created by 林晓中 on 2025/2/7.
-//
 
 import SwiftUI
+import SwiftData
 
 struct NoteRowView: View {
     
     let note: Note
     @Environment(\.modelContext) private var context
+    @State private var showingEditSheet = false
+    @Query private var categories: [Category]
     
     var body: some View {
         HStack(alignment: .firstTextBaseline) {
@@ -21,10 +20,6 @@ struct NoteRowView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-//            if note.isDone {
-//                Image(systemName: "checkmark")
-//                    .foregroundColor(.blue)
-//            }
             Toggle("", isOn: Binding(
                 get: {note.isDone},
                 set: { newValue in
@@ -36,8 +31,49 @@ struct NoteRowView: View {
                     }
                 }
             )).toggleStyle(.switch)
-        }//删除条目
+        }
+        //MARK: - 右键菜单
         .contextMenu {
+            
+            //编辑按钮
+            Button {
+                showingEditSheet = true  // 显示编辑界面
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+            
+            //移动按钮
+            Menu {
+                ForEach(categories) { category in
+                    if category.title != "All" && category.title != note.category {
+                        Button {
+                            // 移动到新分类
+                            note.category = category.title
+                            do {
+                                try context.save()
+                            } catch {
+                                print("移动笔记时出错: \(error)")
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "folder.fill")
+                                    .foregroundStyle(category.color,.blue)
+                                Text(category.title)
+                            }
+                        }
+                        .labelStyle(.titleAndIcon)
+                    }
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "folder")
+                    Text("Move to...")
+                }
+            }
+            .labelStyle(.titleAndIcon)
+            //            .menuIndicator(.visible)
+            
+            //删除按钮
             Button {
                 context.delete(note)
                 do {
@@ -48,7 +84,11 @@ struct NoteRowView: View {
             } label: {
                 Label("Delete", systemImage: "trash")
             }
-            
+        }
+        //显示图标
+        .labelStyle(.titleAndIcon)
+        .sheet(isPresented: $showingEditSheet) {
+            EditNoteView(note: note)
         }
     }
 }

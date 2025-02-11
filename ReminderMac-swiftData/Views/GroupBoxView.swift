@@ -1,3 +1,5 @@
+//GroupBoxView
+
 import SwiftUI
 import SwiftData
 
@@ -19,13 +21,10 @@ struct GroupBoxView: View {
         return notes.filter { $0.category == category.title }
     }
     
-    //    func delete(note: Note){
-    //        if let index = notes.firstIndex(of: note){
-    //            notes.remove(at: index)
-    //        }
-    //    }
     
     var body: some View {
+        
+        
         List() {
             ForEach(filteredNotes) { note in
                 NoteItemView(note: note)
@@ -33,6 +32,7 @@ struct GroupBoxView: View {
                     .listRowInsets(.init(top:4, leading: 0,bottom: 4,trailing: 0))
             }
         }
+        
         
     }
 }

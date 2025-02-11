@@ -1,9 +1,5 @@
 //
-//  Note.swift
-//  MacListDemo
-//
-//  Created by 林晓中 on 2025/2/7.
-//
+// Category.swift
 
 import Foundation
 import SwiftUI
@@ -29,7 +25,7 @@ class Category: Identifiable, Hashable {
         [
             Category(
                 title: "All",
-                color: .green),
+                color: .gray),
             Category(
                 title: "Work",
                 color: .blue),
