@@ -17,7 +17,7 @@ struct AddCategoryView: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Category Name", text: $newCategoryTitle)
+                TextField("Category Name", text: $newCategoryTitle).padding()
             }
             .navigationTitle("New Category")
             .toolbar {
